@@ -12,6 +12,7 @@ function! ChangeFontsize()
   " Break each font down as "name:size:otheropt" while break "size" down to
   " "dimension" and "number".
   " Set default size for each font if not present.
+  " An escaped comma can be included in a font name.
   let l:fontlist = split(&guifont, '[^\\]\zs,')
   let l:names = []
   let l:dimens = []
@@ -57,10 +58,12 @@ function! ChangeFontsize()
     endif
     if l:operator != 'none'
       let i = 0
-      for l:size in l:sizes
-        let l:size = l:size + l:increment
-        let l:sizes[i] = l:size
-        let l:fontlist[i] = l:names[i] . ':' . l:dimens[i] . string(l:sizes[i])
+      for size in l:sizes
+        let size = str2float(size) + l:increment
+        " Must keep the data type of l:sizes' items as string so that
+        " str2float can be used without fault.
+        let l:sizes[i] = string(size)
+        let l:fontlist[i] = l:names[i] . ':' . l:dimens[i] . l:sizes[i]
         if l:otherOpts[i] != ''
           let l:fontlist[i] = l:fontlist[i] . ':' . l:otherOpts[i]
         endif
