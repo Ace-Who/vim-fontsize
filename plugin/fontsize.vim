@@ -8,11 +8,13 @@ function! ChangeFontsize()
     return
   endif
 
-  " Extract font info from font list in &guifont as several lists.
-  " Break each font down as "name:size:otheropt" while break "size" down to
-  " "dimension" and "number".
+  " Extract font specifications from font list in &guifont as several lists.
+  " Break each font specification down as "name:size:otheropt" while breaking
+  " "size" down to "dimension" and "number".
   " Set default size for each font if not present.
-  " An escaped comma can be included in a font name.
+
+  " Choose the separator carefully, as an escaped comma can be included in a
+  " font name.
   let l:fontlist = split(&guifont, '[^\\]\zs,')
   let l:names = []
   let l:dimens = []
@@ -42,7 +44,10 @@ function! ChangeFontsize()
   echo "Press '+' to largen or '-' to shrink the font. '<Esc>' to quit."
   let l:step = 0.5
 
-  " Query operation circularly and apply to every font in &guifont.
+  " Request an operation circularly and apply the change to the size number of
+  " every font in &guifont.
+  " During this process, the full specification of each font is assembled
+  " again from its name, size and other options.
   let l:operator = nr2char(getchar())
   while l:operator != "\<Esc>"
     if l:operator == '+' || l:operator == '='
