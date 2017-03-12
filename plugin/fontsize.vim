@@ -1,5 +1,6 @@
-command! Fontsize call ChangeFontsize()
-function! ChangeFontsize()
+command! Fontsize call fontsize#change()
+
+function! fontsize#change()
 
   if !has('gui_running')
     echohl Error
