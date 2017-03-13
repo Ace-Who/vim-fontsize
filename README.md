@@ -1,4 +1,4 @@
-# fontsize
+# vim-fontsize
 
 Change font size easily.
 
