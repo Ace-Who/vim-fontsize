@@ -30,22 +30,22 @@ function! fontsize#Change()
   for l:font in l:fontlist
     let l:fontOpts = split(l:font, ':')
     if len(g:fontsizes) <= i
-      let g:fontsizes = g:fontsizes + ['h11']
+      call add(g:fontsizes, ['h11'])
     endif
     if len(l:fontOpts) < 2
       let l:fontOpts = [l:font, g:fontsizes[i]]
     endif
     if l:fontOpts[1] !~ '\v^[hw]\d+(\.\d+)?'
-      let l:fontOpts = [l:fontOpts[0], g:fontsizes[i]] + l:fontOpts[1:]
+      call insert(l:fontOpts, g:fontsizes[i], 1)
     else
       let g:fontsizes[i] = l:fontOpts[1]
     endif
     let l:fontSize = l:fontOpts[1]
     let l:fontSizeParts = split(fontSize, '[hw]\zs\ze')
-    let l:names = l:names + [l:fontOpts[0]]
-    let l:dimens = l:dimens + [l:fontSizeParts[0]]
-    let l:sizes = l:sizes + [l:fontSizeParts[1]]
-    let l:otherOpts = l:otherOpts + ['']
+    call add(l:names, l:fontOpts[0])
+    call add(l:dimens, l:fontSizeParts[0])
+    call add(l:sizes, l:fontSizeParts[1])
+    call add(l:otherOpts, '')
     if len(l:fontOpts) > 2
       let l:otherOpts[i] = join(l:fontOpts[2:], ':')
     endif
