@@ -1,10 +1,3 @@
-" Use a global varible to keep track of current font size based on which we
-" can change font size if it's not present in the option guifont at that
-" moment.
-if !exists('g:fontsizes')
-  let g:fontsizes = []
-endif
-
 function! fontsize#Change()
 
   if !has('gui_running')
@@ -12,6 +5,13 @@ function! fontsize#Change()
     echo 'You need to run the GUI version of Vim to use this function.'
     echohl None
     return
+  endif
+
+  " Use a global varible to keep track of current font size based on which we
+  " can change font size even if it's not present in the option guifont at
+  " that moment.
+  if !exists('g:fontsizes')
+    let g:fontsizes = []
   endif
 
   " Extract font specifications from font list in &guifont as several lists.
