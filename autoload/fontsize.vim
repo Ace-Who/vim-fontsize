@@ -1,3 +1,10 @@
+" Use a global varible to keep track of current font size based on which we
+" can change font size if it's not present in the option guifont at that
+" moment.
+if !exists('g:fontsizes')
+  let g:fontsizes = []
+endif
+
 function! fontsize#Change()
 
   if !has('gui_running')
@@ -22,11 +29,16 @@ function! fontsize#Change()
   let i = 0
   for l:font in l:fontlist
     let l:fontOpts = split(l:font, ':')
+    if len(g:fontsizes) <= i
+      let g:fontsizes = g:fontsizes + ['h11']
+    endif
     if len(l:fontOpts) < 2
-      let l:fontOpts = [l:font, 'h10']
+      let l:fontOpts = [l:font, g:fontsizes[i]]
     endif
     if l:fontOpts[1] !~ '\v^[hw]\d+(\.\d+)?'
-      let l:fontOpts = [l:fontOpts[0], 'h10'] + l:fontOpts[1:]
+      let l:fontOpts = [l:fontOpts[0], g:fontsizes[i]] + l:fontOpts[1:]
+    else
+      let g:fontsizes[i] = l:fontOpts[1]
     endif
     let l:fontSize = l:fontOpts[1]
     let l:fontSizeParts = split(fontSize, '[hw]\zs\ze')
@@ -67,7 +79,8 @@ function! fontsize#Change()
         " Must keep the data type of l:sizes' items as string so that
         " str2float can be used without fault.
         let l:sizes[i] = string(size)
-        let l:fontlist[i] = l:names[i] . ':' . l:dimens[i] . l:sizes[i]
+        let g:fontsizes[i] = l:dimens[i] . l:sizes[i]
+        let l:fontlist[i] = l:names[i] . ':' . g:fontsizes[i]
         if l:otherOpts[i] != ''
           let l:fontlist[i] = l:fontlist[i] . ':' . l:otherOpts[i]
         endif
