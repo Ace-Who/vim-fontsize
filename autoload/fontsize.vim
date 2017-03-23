@@ -3,7 +3,7 @@ function! fontsize#Change()
   if !has('gui_running')
     echohl Error
     echo 'You need to run the GUI version of Vim to use this function.'
-    echohl None
+    echohl NONE
     return
   endif
 
@@ -30,10 +30,10 @@ function! fontsize#Change()
   for l:font in l:fontlist
     let l:fontOpts = split(l:font, ':')
     if len(g:fontsizes) <= i
-      call add(g:fontsizes, ['h11'])
+      call add(g:fontsizes, 'h11')
     endif
-    if len(l:fontOpts) < 2
-      let l:fontOpts = [l:font, g:fontsizes[i]]
+    if len(l:fontOpts) == 1
+      call add(l:fontOpts, g:fontsizes[i])
     endif
     if l:fontOpts[1] !~ '\v^[hw]\d+(\.\d+)?'
       call insert(l:fontOpts, g:fontsizes[i], 1)
