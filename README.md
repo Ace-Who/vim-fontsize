@@ -2,6 +2,8 @@
 
 Change font size easily.
 
+Currently only works on Windows and Mac OS X (not tested).
+
 ## Usage
 
 1. Run `:Fontsize` to enter the state of changing font size.

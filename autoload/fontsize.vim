@@ -77,7 +77,7 @@ function! fontsize#Change()
       for size in l:sizes
         let size = str2float(size) + l:increment
         " Must keep the data type of l:sizes' items as string so that
-        " str2float can be used without fault.
+        " str2float won't encount a type error.
         let l:sizes[i] = string(size)
         let g:fontsizes[i] = l:dimens[i] . l:sizes[i]
         let l:fontlist[i] = l:names[i] . ':' . g:fontsizes[i]
